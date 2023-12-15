@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-time Cart Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+<h1>Spring Boot Thymeleaf Real-time Cart Example</h1>
+<div id="productList">
+    <h2>Product List</h2>
+    <ul>
+        <li>
+            <span>Product 1</span>
+            <button class="addToCartButton" data-product-id="1">Add to Cart</button>
+        </li>
+        <li>
+            <span>Product 2</span>
+            <button class="addToCartButton" data-product-id="2">Add to Cart</button>
+        </li>
+        <!-- Thêm các sản phẩm khác vào danh sách -->
+    </ul>
+</div>
+<div id="cart">
+    <h2>Cart</h2>
+    <ul id="cartItems"></ul>
+</div>
+
+<script>
+    $(document).ready(function(){
+      $(".addToCartButton").click(function(){
+         $.ajax({
+                    url: "/addcmt",
+                    type: "POST",
+                    data: {
+                        idPro: 6,
+                        idUser:1,
+                        cmt: "Hello World"
+                    },
+                    success: function(data) {
+                        alert("abc");
+                        $("#cartItems").append("<a>Hell</a>");
+                    }
+                });
+
+
+      });
+    });
+</script>
+
+    </script>
+</body>
+</html>
