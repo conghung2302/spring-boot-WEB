@@ -34,8 +34,6 @@ public class User {
     private String password;
 
     
-
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonView(Views.UserDetail.class)
     private Set<Orders> orderSet = new HashSet<>();

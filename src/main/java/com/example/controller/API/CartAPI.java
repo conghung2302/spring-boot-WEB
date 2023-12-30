@@ -56,15 +56,19 @@ public class CartAPI {
         System.out.println("add cmt");
         Product product = productRepo.findById(idPro).get();
         String email = (String)session.getAttribute("email");
+
+            
+
         System.out.println("Email: " + email);
         User user = userRepo.findByEmail(email);
         UserComment userComment = new UserComment();
         userComment.setComment(cmt);
         userComment.setProduct(product);
         userComment.setUser(user);
-
-        userCommentRepo.save(userComment);
-
+        
+        user.getUserComments().add(userComment);
+        userRepo.save(user);
+        
         return userComment;
 
     }

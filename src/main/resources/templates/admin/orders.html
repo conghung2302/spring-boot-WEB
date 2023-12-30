@@ -67,11 +67,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <div class="text-sm-right">
-                                                <button type="button"
-                                                    class="btn btn-success btn-rounded waves-effect waves-light mb-2 mr-2"><i
-                                                        class="mdi mdi-plus mr-1"></i> Add New Order</button>
-                                            </div>
+                                            
                                         </div><!-- end col-->
                                     </div>
 
@@ -88,7 +84,7 @@
                                                     <th>Total</th>
                                                     <th>Payment Status</th>
                                                     <th>View Details</th>
-                                                    <th>Action</th>
+                                                    <th>Confirm</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -123,14 +119,11 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <a href="javascript:void(0);" class="mr-3 text-primary"
+                                                        <a th:href="${'Admin/confirm/' + o.id}" class="mr-3 text-primary"
                                                             data-toggle="tooltip" data-placement="top" title=""
-                                                            data-original-title="Edit"><i
-                                                                class="mdi mdi-pencil font-size-18"></i></a>
-                                                        <a href="javascript:void(0);" class="text-danger"
-                                                            data-toggle="tooltip" data-placement="top" title=""
-                                                            data-original-title="Delete"><i
-                                                                class="mdi mdi-close font-size-18"></i></a>
+                                                            data-original-title="Done"><i
+                                                                class="mdi mdi-check font-size-18"></i></a>
+                                                        
                                                     </td>
                                                 </tr>
 

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.example.entity.Brand;
-import com.example.entity.Category;
 import com.example.entity.Views;
 import com.example.entity.products.Product;
 import com.example.entity.products.ProductImage;
@@ -74,24 +72,31 @@ public class ProductAPI {
             @RequestPart("wifi") String wifi,
             @RequestPart("cpu") String cpu,
             @RequestPart("ssd") String ssd,
-            @RequestPart("brandId") String brandId
+            @RequestPart("brandId") String brandId,
+            @RequestParam("color") List<Long> color
                     ) {
 
-            // Set<COLOR> colors = new HashSet<>();
+
+
+        Set<COLOR> setColors = new HashSet<>();
+        System.out.println(color.get(0));
+        for (Long o : color) {
+            COLOR cl = colorRepo.findById(o).get();
+            setColors.add(cl);
+            
+        }
         
-            // for (String o : colorSet) {
-            //     // colors.add(colorRepo.findById(o).get());
-            //     System.out.println(o + "hungkiller");
-            // }
+           
             
         System.out.println("id: ");
         System.out.println("Save one");
-        Information information = new Information(null, pin, ram, os, screen, wifi, cpu, ssd, weight, null, null);
+        Information information = new Information(null, pin, ram, os, screen, wifi, cpu, ssd, weight, null, setColors);
         Brand brand = brandRepo.findById(Long.parseLong(brandId)).get();
 
         Product product = new Product(null, name, Double.parseDouble(price), information, description, brand, null,
                 null, null);
-
+        
+            
         Set<ProductImage> setProductImages = ImageService.saveImage(files, product);
         product.setProductImages(setProductImages);
         information.setProduct(product);

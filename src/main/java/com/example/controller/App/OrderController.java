@@ -2,10 +2,13 @@ package com.example.controller.App;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,6 +25,7 @@ import com.example.repo.OrdersRepo;
 import com.example.repo.UserRepo;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.server.PathParam;
 
 @Controller
 public class OrderController {
@@ -37,8 +41,6 @@ public class OrderController {
     @Autowired
     private CartProductRepo cartProductRepo;
 
-    @Autowired
-    private CartRepo cartRepo;
 
     @PostMapping("cart/checkout")
     public String order(@RequestParam String address, @RequestParam String phone, HttpSession session) {
@@ -66,4 +68,6 @@ public class OrderController {
         
         return "redirect:/";
     }
+
+
 }

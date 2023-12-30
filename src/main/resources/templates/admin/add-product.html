@@ -3,6 +3,8 @@
 
 <head>
     <base href="/">
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+
     <meta charset="utf-8">
     <title>Add Product | Skote - Responsive Bootstrap 4 Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,8 +85,10 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="productdesc">Product Description</label>
-                                                    <textarea class="form-control" id="desc" rows="5"></textarea>
+
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" multiple="" id="file">
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -195,24 +199,103 @@
 
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title mb-3">Product Images</h4>
-
+                                    <!-- 
                                     <div class="dropzone">
-                                        <div class="fallback">
-                                            <input name="file" type="file" multiple="" id="file">
-                                        </div>
+                                        <label for="productdesc">Product Description</label>
+                                        <textarea id="desc"></textarea>
+
+                                        <script>
+                                            CKEDITOR.replace( 'desc' );
+                                        </script>
         
-                                        <div class="dz-message needsclick">
-                                            <div class="mb-3">
-                                                <i class="display-4 text-muted bx bxs-cloud-upload"></i>
-                                            </div>
-                                            
-                                            <h4>Drop files here or click to upload.</h4>
-                                        </div>
-                                    </div>
+                                    </div> -->
+
+                                    <textarea id="editor"></textarea>
+                                    <script>
+                                        ClassicEditor
+                                            .create(document.querySelector('#editor'))
+                                            .then(editor => {
+
+                                                document.getElementById('save').addEventListener('click', function () {
+                                                    var editorValue = editor.getData();
+                                                    console.log(editorValue);
+
+                                                    var name_ = $('#name').val();
+                                                    var price_ = $('#price').val();
+                                                    var weight_ = $('#weight').val();
+
+                                                    var pin_ = $('#pin').val();
+                                                    var cpu_ = $('#cpu').val();
+                                                    var ram_ = $('#ram').val();
+                                                    var os_ = $('#os').val();
+                                                    var screen_ = $('#screen').val();
+                                                    var wifi_ = $('#wifi').val();
+                                                    var ssd_ = $('#ssd').val();
+
+                                                    var brandId_ = $('#brandSelect').val();
+
+
+
+                                                    var desc_ = editorValue;
+
+                                                    var file = document.getElementById('file');
+                                                    var files = file.files;
+
+                                                    var formData = new FormData();
+                                                    for (var i = 0; i < files.length; i++) {
+                                                        formData.append('files', files[i]);
+                                                    }
+
+                                                
+                                                    formData.append("description", desc_);
+                                                    formData.append("name", name_);
+                                                    formData.append("price", price_);
+                                                    formData.append("weight", weight_);
+
+
+                                                    formData.append("pin", pin_);
+                                                    formData.append("ram", ram_);
+                                                    formData.append("os", os_);
+                                                    formData.append("screen", screen_);
+                                                    formData.append("wifi", wifi_);
+                                                    formData.append("cpu", cpu_);
+                                                    formData.append("ssd", ssd_);
+                                                    formData.append("brandId", brandId_);
+
+                                                    var selectedValues = [];
+                                                    for (var option of document.getElementById('mySelect').options) {
+                                                        if (option.selected) {
+                                                            selectedValues.push(option.value)
+                                                            // formData.append("colors", selectedValues);
+                                                        }
+                                                    }
+
+                                                    formData.append("color", selectedValues);
+                                                    console.log(formData);
+                                                    var xhr = new XMLHttpRequest();
+                                                    xhr.open('POST', 'http://localhost:8080/api/product/saveOne');
+                                                    xhr.onreadystatechange = function () {
+                                                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                                                            if (xhr.status === 200) {
+                                                                window.location.href = '/Admin/product';
+                                                            } else {
+                                                                console.error(xhr.statusText);
+                                                            }
+                                                        }
+                                                    };
+
+                                                    xhr.send(formData);
+
+
+                                                });
+                                            })
+                                            .catch(error => {
+                                                console.error(error);
+                                            });
+                                    </script>
                                 </div>
 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                     <!-- end row -->
@@ -317,7 +400,7 @@
 
 
     <script>
-        
+
     </script>
 </body>
 

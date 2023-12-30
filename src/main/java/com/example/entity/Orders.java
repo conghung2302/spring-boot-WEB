@@ -28,8 +28,6 @@ public class Orders {
     @JsonView(Views.Public.class)
     private String phone;
 
-    
-
     @ManyToOne
     @JsonView({Views.Order.class, Views.Status.class})
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")

@@ -37,6 +37,7 @@ public class Product {
     private Information information;
 
     @JsonView(Views.Public.class)
+    @Column(length = 2000)
     private String description;
 
     @ManyToOne

@@ -86,6 +86,8 @@ public class APPController {
     @GetMapping("/shop")
     public String shopHome(Model model, HttpSession session) {
         model = initModel.initHeader(model, session);
+        List<Product> productSet = productRepo.findAll();
+        model.addAttribute("productSet", productSet);
         return "shop";
     }
 
@@ -182,6 +184,10 @@ public class APPController {
 
         Product product = productRepo.findById(id).get();
         String email = (String)session.getAttribute("email");
+
+        if (email == null) {
+            return "redirect:/login";
+        }
         System.out.println("Email: " + email);
         User user = userRepo.findByEmail(email);
         UserComment userComment = new UserComment();

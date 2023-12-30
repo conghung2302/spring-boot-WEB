@@ -3,6 +3,7 @@
 
 <head>
     <base href="/">
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
     <meta charset="utf-8">
     <title>Add Product | Skote - Responsive Bootstrap 4 Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,8 +86,9 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="productdesc">Product Description</label>
-                                                    <textarea class="form-control" id="desc" rows="5"></textarea>
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" multiple="" id="file">
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -201,21 +203,17 @@
 
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title mb-3">Product Images</h4>
-
-                                    <div class="dropzone">
-                                        <div class="fallback">
-                                            <input name="file" type="file" multiple="" id="file">
-                                        </div>
-
-                                        <div class="dz-message needsclick">
-                                            <div class="mb-3">
-                                                <i class="display-4 text-muted bx bxs-cloud-upload"></i>
-                                            </div>
-
-                                            <h4>Drop files here or click to upload.</h4>
-                                        </div>
-                                    </div>
+                                    <textarea id="editor"></textarea>
+                                     <script>
+                                        ClassicEditor
+                                            .create(document.querySelector('#editor'))
+                                            .then(editor => {
+                 
+                                            })
+                                            .catch(error => {
+                                                console.error(error);
+                                            });
+                                    </script>
                                 </div>
 
                             </div>

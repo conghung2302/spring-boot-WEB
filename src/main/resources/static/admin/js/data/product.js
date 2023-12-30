@@ -41,11 +41,21 @@ function saveData() {
         formData.append('files', files[i]);
     }
 
-
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            console.log(editor);
+            
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    
+    formData.append("description", editor);
     formData.append("name", name_);
     formData.append("price", price_);
     formData.append("weight", weight_);
-    formData.append("description", desc_);
+    
 
     formData.append("pin", pin_);
     formData.append("ram", ram_);
@@ -67,7 +77,7 @@ function saveData() {
     // formData.append("color", selectedValues);
     // console.log(formData);
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://10.50.141.9:8080/api/product/saveOne');
+    xhr.open('POST', 'http://localhost:8080/api/product/saveOne');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
@@ -83,6 +93,8 @@ function saveData() {
 
 
 }
-$('#save').click(function () {
-    saveData();
-});
+
+
+// $('#save').click(function () {
+//     saveData();
+// });
