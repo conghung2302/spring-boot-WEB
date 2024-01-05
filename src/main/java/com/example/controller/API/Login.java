@@ -42,7 +42,7 @@ public class Login {
         }
 
         return ResponseEntity.status(200).body(userRepo.save(new User(null, signupForm.getName(),
-                signupForm.getEmail(), signupForm.getPhone(),signupForm.getAddress(), signupForm.getPassword(), null, null, new Cart(), LocalDateTime.now())));
+                signupForm.getEmail(), signupForm.getPhone(),signupForm.getAddress(), signupForm.getPassword(), null, null, new Cart(), LocalDateTime.now(), null)));
 
     }
 

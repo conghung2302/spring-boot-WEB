@@ -22,6 +22,8 @@ public class Category {
 
     @JsonView(Views.Public.class)
     private String name;
+    @JsonView(Views.Public.class)
+    private String icon;
 
 
     @JsonView(Views.Category.class)

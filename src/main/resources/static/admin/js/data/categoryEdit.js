@@ -18,7 +18,7 @@ function loadCategories() {
         url: 'http://localhost:8080/api/category/getAll', // Replace with your endpoint to fetch country data
         type: 'GET',
         success: function (data) {
-            $('#categorySelect').empty();
+            // $('#categorySelect').empty();
             $('#categorySelect').append("<option value=''>Select category</option>");
             $.each(data, function (index, category) {
                 $('#categorySelect').append('<option value="' + category.id + '">' + category.name + '</option>');
@@ -47,3 +47,4 @@ function loadBrands(categoryId) {
     });
 }
 
+loadOptions();

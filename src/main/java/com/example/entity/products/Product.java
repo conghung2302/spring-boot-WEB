@@ -57,4 +57,6 @@ public class Product {
     @JsonView({Views.Product.class, Views.Cart.class})
     private Set<ProductImage> productImages;
 
+    @OneToMany(mappedBy = "product")
+    Set<ProductUser> productUsers;
 }

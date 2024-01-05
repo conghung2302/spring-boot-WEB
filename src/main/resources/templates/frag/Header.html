@@ -91,10 +91,11 @@
                             </div> <!-- end single shipping -->
                         </div>
                         <div class="header-middle-block">
-                            <div class="header-middle-searchbox">
-                                <input type="text" placeholder="Search..." id="search">
-                                <button class="search-btn" id="btnSearch"><i class="fa fa-search"></i></button>
-                            </div>
+                            <form class="header-middle-searchbox" action="/products/search" method="get">
+                                <input id="search" type="text" class="form-control" placeholder="Search..." name="search">
+                                <button type="submit" class="search-btn" id="search"><i class="fa fa-search"></i></button>
+       
+                            </form>
                             <div class="header-mini-cart">
                                 <div class="mini-cart-btn">
                                     <i class="fa fa-shopping-cart"></i>
@@ -166,8 +167,8 @@
                                 <ul>
 
                                     <li class="menu-item-has-children" th:each="category: ${categorySet}">
-                                        <a th:href="@{/product/category(id=${category.id})}"><i
-                                                class="fa fa-camera"></i>[[${category.name}]]</a>
+                                        <a th:href="@{'/product/category/'+${category.id}}"><i
+                                                th:class="${category.icon}"></i>[[${category.name}]]</a>
 
 
                                         <ul class="category-mega-menu">
@@ -186,7 +187,7 @@
 
                                 </ul>
                             </nav>
-                            
+
                         </div>
                         <div class="main-menu">
                             <nav id="mobile-menu">
@@ -200,6 +201,9 @@
                                             Contact us</a></li>
                                     <li><a th:href="@{/about}"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
                                             About us </i></a></li>
+                                    <li><a href="http://localhost:8081/"><i class="fa fa-commenting"
+                                                aria-hidden="true"></i>
+                                            Chat room </i></a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -212,5 +216,5 @@
         </div>
     </div>
     <!-- main menu area end -->
-    
+
 </header>

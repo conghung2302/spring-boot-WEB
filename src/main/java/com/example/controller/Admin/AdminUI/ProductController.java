@@ -42,7 +42,7 @@ public class ProductController {
         List<Category> categories = categoryRepo.findAll();
         model.addAttribute("categories", categories);
         model.addAttribute("p", product);
-        // model.addAttribute("colorSet", colorRepo.findAll());
+        model.addAttribute("colorSet", colorRepo.findAll());
         return "admin/edit-product";
     }
 

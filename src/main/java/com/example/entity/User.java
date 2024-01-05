@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.example.entity.products.ProductUser;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,4 +49,8 @@ public class User {
 
     @JsonView(Views.Public.class)
     private LocalDateTime date;
+    
+    @JsonView(Views.Public.class)
+    @OneToMany(mappedBy = "user")
+    Set<ProductUser> productUsers;
 }

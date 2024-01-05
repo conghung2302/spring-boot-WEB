@@ -11,8 +11,8 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     @Query(value = "select * from Product limit :p, :slt", nativeQuery = true)
     public List<Product> selectLimit(@Param("p") int p, @Param("slt") int slt);
 
-    @Query(value = "select * from Product where name like '%:p' or name like ':p%' or name like '%:p%'", nativeQuery = true)
-    public List<Product> searchProduct(@Param("p") String p);
+    @Query(value = "SELECT * FROM Product WHERE Product.name LIKE CONCAT('%', :p, '%')", nativeQuery = true)    
+    public List<Product> searchProduct(@Param("p") String p);   
 
 
     // @Query('select * from product wh')

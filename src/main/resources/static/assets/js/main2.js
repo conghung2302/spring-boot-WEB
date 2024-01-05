@@ -764,26 +764,25 @@
 		});
 	});
 
-	$(document).ready(function () {
-		const txtSearch = document.getElementById('search');
-		const btn = document.getElementById('btnSearch')
+	// $(document).ready(function () {
+	// 	const txtSearch = document.getElementById('search');
+	// 	const btn = document.getElementById('btnSearch')
 
-		btn.addEventListener('click', function () {
-			console.log(txtSearch.value);
-			$.ajax({
-				url: "/search",
-				type: "POST",
-				data: { p: txtSearch},
-				success: function (response) {
-					console.log("Added to cart")
-				},
-				error: function (xhr, status, error) {
-					console.log(xhr.message);
-				}
-			});
-		})
-		
-});
+	// 	btn.addEventListener('click', function () {
+	// 		console.log(txtSearch.value);
+	// 		$.ajax({
+	// 			url: "/search",
+	// 			type: "POST",
+	// 			data: { p: txtSearch},
+	// 			success: function (response) {
+	// 				console.log("Added to cart")
+	// 			},
+	// 			error: function (xhr, status, error) {
+	// 				console.log(xhr.message);
+	// 			}
+	// 		});
+	// 	})	
+	// });
 
 $(document).ready(function () {
 	console.log('Add to cart')
@@ -818,7 +817,7 @@ $(document).ready(function () {
 	});
 });
 
-
+       
 $(document).ready(function () {
 
 	// const product = document.getElementById('idPro');
@@ -850,4 +849,10 @@ $(document).ready(function () {
 });
 
 
+
+
+
 }(jQuery));
+
+
+// Search

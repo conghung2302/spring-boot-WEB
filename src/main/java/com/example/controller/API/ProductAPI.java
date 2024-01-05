@@ -74,7 +74,7 @@ public class ProductAPI {
             @RequestPart("ssd") String ssd,
             @RequestPart("brandId") String brandId,
             @RequestParam("color") List<Long> color
-                    ) {
+    ) {
 
 
 
@@ -94,7 +94,7 @@ public class ProductAPI {
         Brand brand = brandRepo.findById(Long.parseLong(brandId)).get();
 
         Product product = new Product(null, name, Double.parseDouble(price), information, description, brand, null,
-                null, null);
+                null, null, null);
         
             
         Set<ProductImage> setProductImages = ImageService.saveImage(files, product);
@@ -110,7 +110,6 @@ public class ProductAPI {
     @JsonView(Views.Product.class)
     @PostMapping("/update")
     public Product updateProduct(
-            @RequestPart("files") MultipartFile[] files,
             @RequestPart("id") String id,
             @RequestPart("name") String name,
             @RequestPart("price") String price,
@@ -123,15 +122,15 @@ public class ProductAPI {
             @RequestPart("wifi") String wifi,
             @RequestPart("cpu") String cpu,
             @RequestPart("ssd") String ssd,
-            @RequestPart("brandId") String brandId,
-            @RequestPart("colorSet") Long[] colorSet
+            @RequestParam("brandId") Long brandId,
+            @RequestParam("color") List<Long> color
         ) {
 
             
-        if (files == null) {
-            return productRepo.save(productService.updateProduct(id, name, price, weight, description, pin, ram, os, screen, wifi, cpu, ssd));
+        if (description == " ") {
+            return productRepo.save(productService.updateProduct(id, name, price, weight, pin, ram, os, screen, wifi, cpu, ssd));
         } else {
-            return productRepo.save(productService.updateProduct(files, id, name, price, weight, description, pin, ram, os, screen, wifi, cpu, ssd, brandId));
+            return productRepo.save(productService.updateProduct(id, name, price, weight, description, pin, ram, os, screen, wifi, cpu, ssd, brandId, color));
         }
         
     }

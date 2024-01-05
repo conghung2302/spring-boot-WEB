@@ -5,7 +5,7 @@
     <base href="/">
     <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
     <meta charset="utf-8">
-    <title>Add Product | Skote - Responsive Bootstrap 4 Admin Dashboard</title>
+    <title>Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
     <meta content="Themesbrand" name="author">
@@ -39,7 +39,7 @@
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content" th:object="${p}">
-
+            <a id="idpro">[[${p.id}]]</a>
             <div class="page-content">
                 <div class="container-fluid">
 
@@ -95,36 +95,34 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Category</label>
-                                                    <select class="form-control select2" id="categorySelect" onchange="loadOptions()">
-                                                        <option 
-                                                            th:value="${p.brand.category.id}" th:text="${p.brand.category.name}"
+                                                    <select class="form-control select2" id="categorySelect"
+                                                        onchange="loadOptions()">
+                                                        <option th:value="${p.brand.category.id}"
+                                                            th:text="${p.brand.category.name}"
                                                             th:selected="${p.brand.category.id}"></option>
                                                     </select>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="control-label">Brand</label>
-                                                    <select class="form-control select2" id="brandSelect" >
-                                                        <option 
-                                                            th:value="${p.brand.id}" th:text="${p.brand.name}"
+                                                    <select class="form-control select2" id="brandSelect">
+                                                        <option th:value="${p.brand.id}" th:text="${p.brand.name}"
                                                             th:selected="${p.brand.id}"></option>
                                                     </select>
                                                 </div>
 
-                                                <!-- <div class="form-group">
+                                                <div class="form-group">
                                                     <label class="control-label">Color</label>
 
-                                                    <select class="select2 form-control select2-multiple"
+                                                    <select class="select2 form-control select2-multiple" id="mySelect"
                                                         multiple="multiple" data-placeholder="Choose ...">
-                                                        <option value="AK">Alaska</option>
-                                                        <option value="HI">Hawaii</option>
-                                                        <option value="CA">California</option>
-                                                        <option value="NV">Nevada</option>
-                                                        <option value="OR">Oregon</option>
-                                                        <option value="WA">Washington</option>
+                                                        <option th:each="c : ${colorSet}" th:value="${c.id}"
+                                                            th:text="${c.name}"></option>
+
+                                                        <option selected th:each="cl : ${p.information.colorSet}" th:value="${cl.id}" th:text="${cl.name}"></option>
                                                     </select>
 
-                                                </div> -->
+                                                </div>
 
 
                                             </div>
@@ -149,7 +147,8 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="metatitle">CPU</label>
-                                                    <input id="cpu" name="productname" type="text" class="form-control" th:value="${p.information.cpu}">
+                                                    <input id="cpu" name="productname" type="text" class="form-control"
+                                                        th:value="${p.information.cpu}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="metakeywords">RAM</label>
@@ -158,7 +157,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="metatitle">OS</label>
-                                                    <input id="os" name="productname" type="text" class="form-control" th:value="${p.information.cpu}">
+                                                    <input id="os" name="productname" type="text" class="form-control"
+                                                        th:value="${p.information.cpu}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="metakeywords">SSD</label>
@@ -171,22 +171,22 @@
                                                 <div class="form-group">
                                                     <label for="metatitle">WEIGHT</label>
                                                     <input id="weight" name="productname" type="text"
-                                                        class="form-control"  th:value="${p.information.weight}">
+                                                        class="form-control" th:value="${p.information.weight}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="metakeywords">WIFI</label>
                                                     <input id="wifi" name="manufacturername" type="text"
-                                                        class="form-control"  th:value="${p.information.wifi}">
+                                                        class="form-control" th:value="${p.information.wifi}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="metatitle">SCREEN</label>
                                                     <input id="screen" name="productname" type="text"
-                                                        class="form-control"  th:value="${p.information.screen}">
+                                                        class="form-control" th:value="${p.information.screen}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="metakeywords">PIN</label>
                                                     <input id="pin" name="manufacturername" type="text"
-                                                        class="form-control"  th:value="${p.information.pin}">
+                                                        class="form-control" th:value="${p.information.pin}">
                                                 </div>
                                             </div>
                                         </div>
@@ -204,15 +204,101 @@
                             <div class="card">
                                 <div class="card-body">
                                     <textarea id="editor"></textarea>
-                                     <script>
+                                    <script>
+
                                         ClassicEditor
                                             .create(document.querySelector('#editor'))
                                             .then(editor => {
-                 
+
+                                                document.getElementById('save').addEventListener('click', function () {
+                                                    var editorValue = editor.getData();
+                                                    console.log(editorValue);
+
+                                                    // var url = "https://example.com/item/123";
+                                                    var url = window.location.href;
+                                                    // Extract ID using regular expression
+                                                    var match = url.match(/\/(\d+)$/);
+
+                                                    // Check if a match is found
+                                                    if (match) {
+                                                        var id = match[1];
+                                                        console.log("ID:", id);
+                                                    } else {
+                                                        console.log("ID not found in the URL");
+                                                    }
+                                                    // var id = $('#idpro').val();
+                                                    var name_ = $('#name').val();
+                                                    var price_ = $('#price').val();
+                                                    var weight_ = $('#weight').val();
+
+                                                    var pin_ = $('#pin').val();
+                                                    var cpu_ = $('#cpu').val();
+                                                    var ram_ = $('#ram').val();
+                                                    var os_ = $('#os').val();
+                                                    var screen_ = $('#screen').val();
+                                                    var wifi_ = $('#wifi').val();
+                                                    var ssd_ = $('#ssd').val();
+
+                                                    var brandId_ = $('#brandSelect').val();
+
+
+
+                                                    var desc_ = " ";
+                                                    console.log(editorValue.length );
+                                                    if (editorValue.length > 0) {
+                                                        desc_ = editorValue;
+                                                    }
+                                                    var file = document.getElementById('file');
+                                                    var files = file.files;
+
+                                                    var formData = new FormData();
+                                                    formData.append("id", id);
+                                                    formData.append("description", desc_);
+                                                    formData.append("name", name_);
+                                                    formData.append("price", price_);
+                                                    formData.append("weight", weight_);
+
+
+                                                    formData.append("pin", pin_);
+                                                    formData.append("ram", ram_);
+                                                    formData.append("os", os_);
+                                                    formData.append("screen", screen_);
+                                                    formData.append("wifi", wifi_);
+                                                    formData.append("cpu", cpu_);
+                                                    formData.append("ssd", ssd_);
+                                                    formData.append("brandId", brandId_);
+
+                                                    var selectedValues = [];
+                                                    for (var option of document.getElementById('mySelect').options) {
+                                                        if (option.selected) {
+                                                            selectedValues.push(option.value)
+                                                            // formData.append("colors", selectedValues);
+                                                        }
+                                                    }
+
+                                                    formData.append("color", selectedValues);
+                                                    console.log(formData);
+                                                    var xhr = new XMLHttpRequest();
+                                                    xhr.open('POST', 'http://localhost:8080/api/product/update');
+                                                    xhr.onreadystatechange = function () {
+                                                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                                                            if (xhr.status === 200) {
+                                                                window.location.href = '/Admin/product';
+                                                            } else {
+                                                                console.error(xhr.statusText);
+                                                            }
+                                                        }
+                                                    };
+
+                                                    xhr.send(formData);
+
+
+                                                });
                                             })
                                             .catch(error => {
                                                 console.error(error);
                                             });
+
                                     </script>
                                 </div>
 
@@ -316,7 +402,7 @@
     <!-- App js -->
     <script src="admin\js\app.js"></script>
 
-    <script src="admin\js\data\product.js"></script>
+    <!-- <script src="admin\js\data\product.js"></script> -->
     <script src="admin\js\data\categoryEdit.js"></script>
 
 </body>

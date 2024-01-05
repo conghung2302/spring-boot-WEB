@@ -7,6 +7,9 @@ import com.example.entity.Category;
 import com.example.entity.User;
 import com.example.entity.UserComment;
 import com.example.entity.products.Product;
+import com.example.entity.products.ProductImage;
+import com.example.entity.products.ProductUser;
+import com.example.entity.products.ProductUserKey;
 import com.example.repo.*;
 import com.example.service.InitModel;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +34,10 @@ public class APPController {
     private CategoryRepo categoryRepo;
 
     @Autowired
+    private ProductUserRepo productUserRepo;
+
+
+    @Autowired
     private InitModel initModel;
 
     @Autowired
@@ -39,11 +46,26 @@ public class APPController {
     @Autowired
     private ProductRepo productRepo;
 
+
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         System.out.println("Home-----------");
-        System.out.println((String) session.getAttribute("name"));
+        String email = (String) session.getAttribute("email");
+
+        User user = userRepo.findByEmail(email);
+        
+        
+        System.out.println();
         model = initModel.initHeader(model, session);
+        if (user != null) {
+            List<ProductUser> productUsers = productUserRepo.findAllProduct(user.getId());
+            model.addAttribute("setProduct", productUsers);
+        }
+        
+
+
+        List<Product> productUsers2 = productRepo.findAll().subList(0, 6);
+        model.addAttribute("setProduct2", productUsers2);
         return "index";
     }
 
@@ -68,8 +90,8 @@ public class APPController {
 
     
 
-    @GetMapping("/product/category")
-    public String categoryShop2(Model model, @RequestParam Long id, HttpSession session) {
+    @GetMapping("/product/category/{id}")
+    public String categoryShop2(Model model, @PathVariable Long id, HttpSession session) {
         model = initModel.initHeader(model, session);
 
         Set<Product> productSet = new HashSet<>();
@@ -83,21 +105,73 @@ public class APPController {
         return "shop";
     }
 
-    @GetMapping("/shop")
-    public String shopHome(Model model, HttpSession session) {
+    
+
+
+    @GetMapping("/shop/{id}")
+    public String shopHome(Model model, HttpSession session, @PathVariable int id) {
+        System.out.println(id);
         model = initModel.initHeader(model, session);
+        
         List<Product> productSet = productRepo.findAll();
+        if (id > productSet.size()/3 + 1) {
+            model.addAttribute("productSet", productSet);
+            return "shop";
+        } else {
+            model.addAttribute("productSet", productSet.subList(id, id+3));
+        }
+        return "shop";
+        
+    }
+
+
+    
+    @GetMapping("/shop")
+    public String shopHome1(Model model, HttpSession session) {
+        
+        model = initModel.initHeader(model, session);
+        
+        List<Product> productSet = productRepo.findAll();
+    
         model.addAttribute("productSet", productSet);
         return "shop";
     }
 
 
+    
 
     @GetMapping("/product/{id}")
     public String productDetail(@PathVariable Long id, Model model, HttpSession session) {
         model = initModel.initHeader(model, session);
         model.addAttribute("product", productRepo.findById(id).get());
         // System.out.println(id);
+        String email = (String) session.getAttribute("email");  
+        System.out.println(email);
+        if (email != null) {
+            
+            User user = userRepo.findByEmail(email);
+            Product product = productRepo.findById(id).get();
+
+            System.out.println("IMG: " + product.getProductImages().size());
+
+            for (ProductImage o : product.getProductImages()) {
+                System.out.println(o.getUrl());
+            }
+            System.out.println(user.getId());
+            System.out.println(product.getId());
+            
+            ProductUser productUser = productUserRepo.findProductUseById(user.getId(), product.getId()); 
+
+            if (productUser != null) {
+                productUser.setView(productUser.getView() + 1);
+                productUserRepo.save(productUser);
+            } else {
+                ProductUser productUser2 = new ProductUser(new ProductUserKey(product.getId(), user.getId()), product, user, 1);
+                productUserRepo.save(productUser2);
+            }
+           
+
+        }
         return "product-details-variable2";
     }
 
@@ -136,6 +210,7 @@ public class APPController {
         User user = userRepo.findByEmail(email);
 
         model.addAttribute("orderSet", user.getOrderSet());
+        model.addAttribute("user", user);
         return "my-account";
     }
 

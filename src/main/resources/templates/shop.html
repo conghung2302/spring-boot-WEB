@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="meta description">
-        
+
     <!-- Site title -->
     <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
     <!-- Favicon -->
@@ -39,12 +39,17 @@
             <div class="switcher-panel-item">
                 <h3>Color Schemes</h3>
                 <ul class="nav flex-wrap colors">
-                    <li class="default active" data-color="default" data-toggle="tooltip" data-placement="top" title="Red"></li>
+                    <li class="default active" data-color="default" data-toggle="tooltip" data-placement="top"
+                        title="Red"></li>
                     <li class="green" data-color="green" data-toggle="tooltip" data-placement="top" title="Green"></li>
-                    <li class="soft-green" data-color="soft-green" data-toggle="tooltip" data-placement="top" title="Soft-Green"></li>
-                    <li class="sky-blue" data-color="sky-blue" data-toggle="tooltip" data-placement="top" title="Sky-Blue"></li>
-                    <li class="orange" data-color="orange" data-toggle="tooltip" data-placement="top" title="Orange"></li>
-                    <li class="violet" data-color="violet" data-toggle="tooltip" data-placement="top" title="Violet"></li>
+                    <li class="soft-green" data-color="soft-green" data-toggle="tooltip" data-placement="top"
+                        title="Soft-Green"></li>
+                    <li class="sky-blue" data-color="sky-blue" data-toggle="tooltip" data-placement="top"
+                        title="Sky-Blue"></li>
+                    <li class="orange" data-color="orange" data-toggle="tooltip" data-placement="top" title="Orange">
+                    </li>
+                    <li class="violet" data-color="violet" data-toggle="tooltip" data-placement="top" title="Violet">
+                    </li>
                 </ul>
             </div>
 
@@ -125,7 +130,8 @@
                                     <div class="col-lg-7 col-md-6">
                                         <div class="top-bar-left">
                                             <div class="product-view-mode mr-70 mr-sm-0">
-                                                <a class="active" href="#" data-target="grid"><i class="fa fa-th"></i></a>
+                                                <a class="active" href="#" data-target="grid"><i
+                                                        class="fa fa-th"></i></a>
                                                 <a href="#" data-target="list"><i class="fa fa-list"></i></a>
                                             </div>
                                             <div class="product-amount">
@@ -133,22 +139,73 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-lg-5 col-md-6">
                                         <div class="top-bar-right">
+                                            <button class="check-btn sqr-btn" id="sortASC"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+
+                                            </button>
+                                            <script>
+                                                var sortASC = document.getElementById("sortASC");
+                                                sortASC.addEventListener('click', function(){
+                                                    var url = window.location.href;
+                                                    var list = url.split("/");
+                                                    var n = list.length;
+                                                    if (list[n - 2] == 'category' || list[n - 2] == 'brand') {
+                                                        window.location.href = "http://localhost:8080/products/sort?type=" + list[n - 2] +"&id=" + list[n-1] + "&fill=asc";
+                                                    } else {
+                                                        window.location.href = "http://localhost:8080/products/sort?" + "&fill=asc";
+                                                    }
+                                                    console.log(list);
+                                                    console.log("click");
+                                                })
+                                            </script>
+                                            <button class="check-btn sqr-btn" id="sortDESC" style="margin-left: 10px;"><i class="fa fa-sort-amount-desc" aria-hidden="true"></i></button>
+                                            <script>
+                                                var sortASC = document.getElementById("sortDESC");
+                                                sortASC.addEventListener('click', function(){
+                                                    var url = window.location.href;
+                                                    var list = url.split("/");
+                                                    var n = list.length;
+                                                    if (list[n - 2] == 'brand' || list[n - 2] == 'category') {
+                                                        window.location.href = "http://localhost:8080/products/sort?type=" + list[n - 2] +"&id=" + list[n-1] + "&fill=desc";
+                                                    } else {
+                                                        window.location.href = "http://localhost:8080/products/sort?" + "&fill=desc";
+                                                    }
+                                                    console.log(list);
+                                                    console.log("click");
+                                                })
+                                            </script>
                                             <div class="product-short">
-                                                <p>Sort By : </p>
-                                                <select class="nice-select" name="sortby">
+                                                <!-- <p>Sort By : </p>
+                                                <select id="sortby" class="nice-select" name="sortby">
                                                     <option value="trending">Relevance</option>
-                                                    <option value="sales">Name (A - Z)</option>
                                                     <option value="sales">Name (Z - A)</option>
                                                     <option value="rating">Price (Low &gt; High)</option>
                                                     <option value="date">Rating (Lowest)</option>
                                                     <option value="price-asc">Model (A - Z)</option>
                                                     <option value="price-asc">Model (Z - A)</option>
                                                 </select>
+
+                                                <script>
+                                                    var selectElement = document.getElementById("sortby");
+
+                                                    // Event listener for the 'change' event on the select element
+                                                    selectElement.addEventListener("change", function () {
+                                                        var selectedOption = selectElement.options[selectElement.selectedIndex];
+                                                        var selectedValue = selectedOption.value;
+                                                        var selectedText = selectedOption.text;
+
+                                                        console.log("Selected Value:", selectedValue);
+                                                        console.log("Selected Text:", selectedText);
+                                                    });
+
+                                                </script> -->
                                             </div>
                                         </div>
                                     </div>
+
+
                                 </div>
                             </div>
                             <!-- shop product top wrap start -->
@@ -160,18 +217,27 @@
                                     <div class="product-item fix mb-30">
                                         <div class="product-thumb">
                                             <a th:href="@{/product/{id}(id=${product.id})}">
-                                                <img th:src="${'images/' + product.productImages[0].url}" class="img-pri" alt="">
-                                                <img th:src="${'images/' + product.productImages[1].url}" class="img-sec" alt="">
+                                                <img th:src="${'images/' + product.productImages[0].url}"
+                                                    class="img-pri" alt="">
+                                                <img th:src="${'images/' + product.productImages[1].url}"
+                                                    class="img-sec" alt="">
 
                                             </a>
                                             <div class="product-label">
                                                 <span>hot</span>
                                             </div>
                                             <div class="product-action-link">
-                                                <a href="#" data-toggle="modal" data-target="#quick_view"> <span data-toggle="tooltip" data-placement="left" title="Quick view"><i class="fa fa-shopping-cart"></i></span> </a>
-                                                <a href="#" data-toggle="tooltip" data-placement="left" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-                                                <a href="#" data-toggle="tooltip" data-placement="left" title="Compare"><i class="fa fa-refresh"></i></a>
-                                                <a th:href="@{/product/{id}(id=${product.id})}" data-toggle="tooltip" data-placement="left" title="Add to cart"><i class="fa fa-search"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#quick_view"> <span
+                                                        data-toggle="tooltip" data-placement="left"
+                                                        title="Quick view"><i class="fa fa-shopping-cart"></i></span>
+                                                </a>
+                                                <a href="#" data-toggle="tooltip" data-placement="left"
+                                                    title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="left"
+                                                    title="Compare"><i class="fa fa-refresh"></i></a>
+                                                <a th:href="@{/product/{id}(id=${product.id})}" data-toggle="tooltip"
+                                                    data-placement="left" title="Add to cart"><i
+                                                        class="fa fa-search"></i></a>
                                             </div>
                                         </div>
                                         <div class="product-content">
@@ -185,7 +251,7 @@
                                                     <span class="good"><i class="fa fa-star"></i></span>
                                                     <span><i class="fa fa-star"></i></span>
                                                     <div class="pro-review">
-                                                        <span>1 review(s)</span>
+                                                        <span>[[${product.userComments.size}]] review</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -194,8 +260,10 @@
                                     <div class="product-list-item mb-30">
                                         <div class="product-thumb">
                                             <a th:href="@{/product/{id}(id=${product.id})}">
-                                                <img th:src="${'images/' + product.productImages[0].url}" class="img-pri" alt="">
-                                                <img th:src="${'images/' + product.productImages[1].url}" class="img-sec" alt="">
+                                                <img th:src="${'images/' + product.productImages[0].url}"
+                                                    class="img-pri" alt="">
+                                                <img th:src="${'images/' + product.productImages[1].url}"
+                                                    class="img-sec" alt="">
                                             </a>
                                             <div class="product-label">
                                                 <span>hot</span>
@@ -215,15 +283,26 @@
                                             </div>
                                             <div class="pricebox">
                                                 <span class="regular-price">[[${'$' + product.price}]]</span>
-                                                <span class="old-price"><del>$ [[${product.price + product.price * 20/100}]]</del></span>
+                                                <span class="old-price"><del>$ [[${product.price + product.price *
+                                                        20/100}]]</del></span>
                                             </div>
-                                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-                                            <p>Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris consequat nisi ut mauris efficitur lacinia.</p>
+                                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                                                eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+                                                voluptua.</p>
+                                            <p>Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse
+                                                platea dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet
+                                                elit. Mauris consequat nisi ut mauris efficitur lacinia.</p>
                                             <div class="product-list-action-link">
-                                                <a class="buy-btn" th:href="${'/product/' + product.id}" data-toggle="tooltip" data-placement="top" title="Add to cart">go to buy <i class="fa fa-shopping-cart"></i> </a>
-                                                <a href="#" data-toggle="modal" data-target="#quick_view"> <span data-toggle="tooltip" data-placement="top" title="Quick view"><i class="fa fa-search"></i></span> </a>
-                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="fa fa-refresh"></i></a>
+                                                <a class="buy-btn" th:href="${'/product/' + product.id}"
+                                                    data-toggle="tooltip" data-placement="top" title="Add to cart">go to
+                                                    buy <i class="fa fa-shopping-cart"></i> </a>
+                                                <a href="#" data-toggle="modal" data-target="#quick_view"> <span
+                                                        data-toggle="tooltip" data-placement="top" title="Quick view"><i
+                                                            class="fa fa-search"></i></span> </a>
+                                                <a href="#" data-toggle="tooltip" data-placement="top"
+                                                    title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="top"
+                                                    title="Compare"><i class="fa fa-refresh"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -239,13 +318,72 @@
                             <div class="row">
                                 <div class="col-12">
                                     <ul class="pagination-box">
-                                        <li><a class="Previous" href="#">Previous</a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a class="Next" href="#"> Next </a></li>
+                                        <li><a class="Previous">Previous</a></li>
+                                        <li><a href="http://localhost:8080/shop/1">1</a></li>
+                                        <li><a href="http://localhost:8080/shop/2">2</a></li>
+                                        <li><a href="http://localhost:8080/shop/3">3</a></li>
+                                        <li><a class="Next"> Next </a></li>
                                     </ul>
+                                    <script>
+                                        // Lấy danh sách các thẻ <li> trong phần tử có class "pagination-box"
+                                        var listItems = document.querySelectorAll('.pagination-box li');
+                                        console.log(listItems.length + " list");
+                                        // Lấy phần tử <a> có class "Next"
+                                        var nextLink = document.querySelector('.Next');
+                                        var previousLink = document.querySelector('.Previous');
+                                        // Bắt sự kiện nhấp chuột vào nút "Next"
+                                        nextLink.addEventListener('click', function (e) {
+                                            e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+                                            // Tăng giá trị của các thẻ <li>
+                                            for (var i = 1; i < listItems.length - 1; i++) {
+                                                var listItem = listItems[i];
+                                                var link = listItem.querySelector('a');
+
+
+                                                console.log(link.href);
+                                                var currentValue = parseInt(link.textContent);
+                                                link.setAttribute("href", "http://localhost:8080/shop/" + (currentValue + 3));
+                                                link.textContent = currentValue + 3; // Tăng giá trị lên 3 (trong ví dụ này)
+                                            }
+
+                                            nextLink.textContent = "Next";
+                                            previousLink.textContent = "Previous";
+                                            console.log("vaue" + nextLink.value);
+                                        });
+
+
+                                        var listItems = document.querySelectorAll('.pagination-box li');
+
+                                        // Lấy phần tử <a> có class "Previous"
+
+
+                                        // Bắt sự kiện nhấp chuột vào nút "Previous"
+                                        previousLink.addEventListener('click', function (e) {
+                                            e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+                                            // Giảm giá trị của các thẻ <li>
+                                            for (var i = 0; i < listItems.length; i++) {
+                                                var listItem = listItems[i];
+                                                var link = listItem.querySelector('a');
+                                                var currentValue = parseInt(link.textContent);
+                                                if (currentValue <= 1)
+                                                    return;
+                                                link.setAttribute("href", "http://localhost:8080/shop/" + (currentValue - 3));
+                                                console.log(link.href);
+
+                                                link.textContent = currentValue - 3; // Giảm giá trị đi 3 (trong ví dụ này)
+                                            }
+                                            nextLink.textContent = "Next";
+                                            previousLink.textContent = "Previous";
+                                        });
+
+
+                                    </script>
+
                                 </div>
+
+
                             </div>
                         </div>
                         <!-- end pagination area -->
@@ -332,11 +470,16 @@
                             <!-- mailchimp-alerts end -->
                         </div>
                         <div class="social-icons">
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fa fa-instagram"></i></a>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Google-plus"><i class="fa fa-google-plus"></i></a>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fa fa-youtube"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><i
+                                    class="fa fa-facebook"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i
+                                    class="fa fa-twitter"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i
+                                    class="fa fa-instagram"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Google-plus"><i
+                                    class="fa fa-google-plus"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i
+                                    class="fa fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -356,7 +499,8 @@
                                     <ul class="location">
                                         <li><i class="fa fa-envelope"></i>support@galio.com</li>
                                         <li><i class="fa fa-phone"></i>(800) 0123 456 789</li>
-                                        <li><i class="fa fa-map-marker"></i>Address:  1234 - Bandit Tringi Aliquam Vitae. New York</li>
+                                        <li><i class="fa fa-map-marker"></i>Address: 1234 - Bandit Tringi Aliquam Vitae.
+                                            New York</li>
                                     </ul>
                                     <a class="map-btn" href="contact-us.html">open in google map</a>
                                 </div>
@@ -452,24 +596,29 @@
                                         <img src="assets/img/product/product-details-img1.jpg" alt="" />
                                     </div>
                                     <div class="pro-large-img">
-                                        <img src="assets/img/product/product-details-img2.jpg" alt=""/>
+                                        <img src="assets/img/product/product-details-img2.jpg" alt="" />
                                     </div>
                                     <div class="pro-large-img">
-                                        <img src="assets/img/product/product-details-img3.jpg" alt=""/>
+                                        <img src="assets/img/product/product-details-img3.jpg" alt="" />
                                     </div>
                                     <div class="pro-large-img">
-                                        <img src="assets/img/product/product-details-img4.jpg" alt=""/>
+                                        <img src="assets/img/product/product-details-img4.jpg" alt="" />
                                     </div>
                                     <div class="pro-large-img">
-                                        <img src="assets/img/product/product-details-img5.jpg" alt=""/>
+                                        <img src="assets/img/product/product-details-img5.jpg" alt="" />
                                     </div>
                                 </div>
                                 <div class="pro-nav slick-padding2 slick-arrow-style_2">
-                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img1.jpg" alt="" /></div>
-                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img2.jpg" alt="" /></div>
-                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img3.jpg" alt="" /></div>
-                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img4.jpg" alt="" /></div>
-                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img5.jpg" alt="" /></div>
+                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img1.jpg"
+                                            alt="" /></div>
+                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img2.jpg"
+                                            alt="" /></div>
+                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img3.jpg"
+                                            alt="" /></div>
+                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img4.jpg"
+                                            alt="" /></div>
+                                    <div class="pro-nav-thumb"><img src="assets/img/product/product-details-img5.jpg"
+                                            alt="" /></div>
                                 </div>
                             </div>
                             <div class="col-lg-7">
@@ -492,14 +641,18 @@
                                     <div class="pricebox">
                                         <span class="regular-price">$160.00</span>
                                     </div>
-                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.<br>
-                                    Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris consequat nisi ut mauris efficitur lacinia.</p>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.<br>
+                                        Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea
+                                        dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris
+                                        consequat nisi ut mauris efficitur lacinia.</p>
                                     <div class="quantity-cart-box d-flex align-items-center mt-20">
                                         <div class="quantity">
                                             <div class="pro-qty"><input type="text" value="1"></div>
                                         </div>
                                         <div class="action_link">
-                                            <a class="buy-btn" href="#">add to cart<i class="fa fa-shopping-cart"></i> </a>
+                                            <a class="buy-btn" href="#">add to cart<i class="fa fa-shopping-cart"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

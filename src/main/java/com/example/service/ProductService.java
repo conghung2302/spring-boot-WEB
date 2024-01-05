@@ -5,12 +5,16 @@ import com.example.entity.Category;
 import com.example.entity.Views;
 import com.example.entity.products.Product;
 import com.example.entity.products.ProductImage;
+import com.example.entity.products.productInfor.COLOR;
 import com.example.entity.products.productInfor.Information;
 import com.example.repo.BrandRepo;
 import com.example.repo.CategoryRepo;
+import com.example.repo.ColorRepo;
 import com.example.repo.ProductRepo;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,30 +30,37 @@ public class ProductService {
     private ProductRepo productRepo;
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private ColorRepo colorRepo;
     @Autowired
     private BrandRepo brandRepo;
 
     @JsonView(Views.Product.class)
-    @PostMapping("/update")
     public Product updateProduct(
-            @RequestPart("files") MultipartFile[] files,
-            @RequestPart("id") String id,
-            @RequestPart("name") String name,
-            @RequestPart("price") String price,
-            @RequestPart("weight") String weight,
-            @RequestPart("description") String description,
-            @RequestPart("pin") String pin,
-            @RequestPart("ram") String ram,
-            @RequestPart("os") String os,
-            @RequestPart("screen") String screen,
-            @RequestPart("wifi") String wifi,
-            @RequestPart("cpu") String cpu,
-            @RequestPart("ssd") String ssd,
-            @RequestPart("brandId") String brandId) {
-
+            String id,
+            String name,
+            String price,
+            String weight,
+            String description,
+            String pin,
+            String ram,
+            String os,
+            String screen,
+            String wifi,
+            String cpu,
+            String ssd,
+            Long brandId,
+            List<Long> color
+            ) {
+        
+        Set<COLOR> setColors = new HashSet<>();
+        System.out.println(color.get(0));
+        for (Long o : color) {
+            COLOR cl = colorRepo.findById(o).get();
+            setColors.add(cl);
+            
+        }
         Product product = productRepo.findById(Long.valueOf(id)).get();
-        Brand brand = brandRepo.findById(Long.parseLong(brandId)).get();
+        Brand brand = brandRepo.findById(brandId).get();
 
         product.setBrand(brand);
         product.setDescription(description);
@@ -66,10 +77,9 @@ public class ProductService {
         information.setWeight(weight);
         information.setWifi(wifi);
         information.setProduct(product);
+        information.setColorSet(setColors);
         product.setInformation(information);
 
-        Set<ProductImage> setProductImages = ImageService.saveImage(files, product);
-        product.setProductImages(setProductImages);
         return productRepo.save(product);
     }
 
@@ -79,7 +89,6 @@ public class ProductService {
             String name,
             String price,
             String weight,
-            String description,
             String pin,
             String ram,
             String os,
@@ -89,7 +98,6 @@ public class ProductService {
             String ssd) {
 
         Product product = productRepo.findById(Long.valueOf(id)).get();
-        product.setDescription(description);
         product.setName(name);
         product.setPrice(Double.parseDouble(price));
 
