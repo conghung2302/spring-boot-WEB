@@ -114,11 +114,11 @@ public class APPController {
         model = initModel.initHeader(model, session);
         
         List<Product> productSet = productRepo.findAll();
-        if (id > productSet.size()/3 + 1) {
+        if (id > productSet.size()/5 + 1) {
             model.addAttribute("productSet", productSet);
             return "shop";
         } else {
-            model.addAttribute("productSet", productSet.subList(id, id+3));
+            model.addAttribute("productSet", productSet.subList(id, id+5));
         }
         return "shop";
         
